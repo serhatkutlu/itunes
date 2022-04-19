@@ -11,7 +11,9 @@ interface itunesApi {
         @Query("term")
         term:String,
         @Query("limit")
-        limit:Int=200,
+        limit:Int=25,
+        @Query("offset")
+        offset:Int
     ):SearchResponce
 
 }

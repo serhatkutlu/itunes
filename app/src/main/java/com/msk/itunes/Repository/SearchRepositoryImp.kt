@@ -9,11 +9,11 @@ import javax.inject.Inject
 
 class SearchRepositoryImp @Inject constructor(private val api:itunesApi):SearchRepository {
 
-   override fun  Search(query:String): Flow<Result<MutableMap<String,MutableList<com.msk.itunes.Responce.Data.SearcResponce.Result>>>> {
+   override fun  Search(query:String,offset:Int): Flow<Result<MutableMap<String,MutableList<com.msk.itunes.Responce.Data.SearcResponce.Result>>>> {
 
        return flow {
            try {
-               val responce=api.searchItunes(query)
+               val responce=api.searchItunes(query, offset = offset)
                val parsedList=WrapperTypeParserClass.parse(responce)
                emit(parsedList)
            }catch (e:Exception){
