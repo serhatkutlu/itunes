@@ -3,11 +3,12 @@ package com.msk.itunes
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.hilt.navigation.compose.hiltViewModel
-import com.msk.itunes.ui.SearchScreen.SearchScreenViewModel
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.msk.itunes.ui.SearchScreen.SearchScreen
 import com.msk.itunes.ui.theme.ItunesTheme
+import com.msk.moviesapplication.ui.Util.ituneScreenRoute
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -17,22 +18,14 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ItunesTheme {
-                Greeting("a")
+                val navController= rememberNavController()
+                NavHost(navController, startDestination =ituneScreenRoute.SearchScreen.route){
+                    composable(route= ituneScreenRoute.SearchScreen.route){
+                        SearchScreen(navController)
+                    }}
+            }
             }
         }
     }
 
-    @Composable
-    fun Greeting(name: String) {
-        val viewModel = hiltViewModel<SearchScreenViewModel>()
-        viewModel.get()
-    }
 
-    @Preview(showBackground = true)
-    @Composable
-    fun DefaultPreview() {
-        ItunesTheme {
-            Greeting("Android")
-        }
-    }
-}
