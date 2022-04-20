@@ -25,7 +25,6 @@ import com.msk.itunes.ui.SearchScreen.component.TabScreen
 @Composable
 fun SearchScreen(navController: NavHostController) {
     val viewModel= hiltViewModel<SearchScreenViewModel>()
-    //val anim=viewModel.searchquery.collectAsState().value.isBlank()
     val text= remember {
         mutableStateOf("")
     }
