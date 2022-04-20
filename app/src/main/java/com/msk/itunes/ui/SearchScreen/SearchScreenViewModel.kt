@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.msk.itunes.Repository.SearchRepository
 import com.msk.itunes.Responce.Data.SearcResponce.Result
+import com.msk.itunes.Responce.Data.WrapperTypeData
+import com.msk.itunes.ui.SearchScreen.component.SearchState
 import dagger.hilt.android.lifecycle.HiltViewModel
 
 import kotlinx.coroutines.Job
@@ -20,11 +22,14 @@ import javax.inject.Inject
 class SearchScreenViewModel @Inject constructor ( private val repository: SearchRepository):ViewModel() {
 
 
-    private val _MapData: MutableStateFlow<MutableMap<String, MutableList<Result>>?> =
-        MutableStateFlow(null)
-    val MapData: StateFlow<MutableMap<String, MutableList<Result>>?> = _MapData
+    private val _WrapperData: MutableStateFlow<WrapperTypeData> =
+        MutableStateFlow(WrapperTypeData())
+    val WrapperData: StateFlow<WrapperTypeData> = _WrapperData
 
-     //var searchquery: MutableStateFlow<String> = MutableStateFlow("")
+    private val _SearchStates:MutableStateFlow<SearchState> = MutableStateFlow(SearchState())
+    val SearchState:StateFlow<SearchState> =_SearchStates
+
+
     private var searchquery=""
 
     private var currentPage = 0
@@ -45,14 +50,20 @@ class SearchScreenViewModel @Inject constructor ( private val repository: Search
     }
 
     private fun LoadNewPage() {
-        if (pageJob?.isActive ?: false) {
+        if (pageJob?.isActive ?: false||searchquery.isBlank()) {
             return
         }
         pageJob = viewModelScope.launch {
             repository.Search(searchquery, currentPage).onEach {
 
                 it.onSuccess {
-                    _MapData.value = it
+                    var newdata:WrapperTypeData
+                    WrapperData.value.let {data->
+                         newdata=WrapperTypeData(track = (data.track +it.track).toMutableList(), audiobook =(data.audiobook +it.audiobook).toMutableList() )
+
+                    }
+                    //Log.d("dadas",WrapperData.value.audiobook.size.toString())
+                    _WrapperData.value=newdata
                     currentPage+=25
                 }
 
@@ -69,6 +80,7 @@ class SearchScreenViewModel @Inject constructor ( private val repository: Search
         searchJob = viewModelScope.launch {
             pageJob = null
             currentPage=0
+            _WrapperData.value=WrapperTypeData()
             LoadNewPage()
 
         }
