@@ -1,6 +1,6 @@
 package com.msk.itunes.ui.SearchScreen.component
 
-import android.util.Log
+/*import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,9 +23,6 @@ import kotlinx.coroutines.launch
 @Composable
 fun TabScreen() {
     val pagerState = rememberPagerState(pageCount = 2)
-
-    //val vievmodel= hiltViewModel<SearchScreenViewModel>()
-    //val wrapperData=vievmodel.WrapperData.collectAsState()
 
     val list= listOf("track","audiobook")
 
@@ -89,3 +86,4 @@ fun TabsContent(pagerState: PagerState) {
         }
     }
 }
+*/

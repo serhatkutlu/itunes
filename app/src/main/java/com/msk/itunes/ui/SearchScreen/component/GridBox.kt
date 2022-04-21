@@ -1,13 +1,11 @@
-package com.msk.itunes.ui.SearchScreen.component
+/*package com.msk.itunes.ui.SearchScreen.component
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.AbsoluteRoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Movie
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,20 +14,20 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.ImagePainter
 import coil.compose.rememberImagePainter
-import com.msk.itunes.Responce.Data.SearcResponce.Result
+import com.msk.itunes.Responce.Data.SearcResponce.track.Result
+import com.msk.itunes.Util.changeImageQuality
 
 
 @OptIn(ExperimentalCoilApi::class)
 @ExperimentalMaterialApi
 @Composable
-fun MovieBoxScreen( result: Result, modifier: Modifier = Modifier, cardOnclick:(Int)->Unit){
+fun MovieBoxScreen(result: Result, modifier: Modifier = Modifier, cardOnclick:(Int)->Unit){
     Box(modifier){
         Card(shape = AbsoluteRoundedCornerShape(10.dp), modifier = Modifier.fillMaxSize(), onClick = {}) {
-            val painter= rememberImagePainter(data=result.artworkUrl100)
+            val painter= rememberImagePainter(data=result.artworkUrl100.changeImageQuality("200x200"))
             when(painter.state){
                 is ImagePainter.State.Loading->{
                     Box(modifier= Modifier.fillMaxSize(0.3f)) {
@@ -55,4 +53,4 @@ fun MovieBoxScreen( result: Result, modifier: Modifier = Modifier, cardOnclick:(
 
 
     }
-}
+}*/
