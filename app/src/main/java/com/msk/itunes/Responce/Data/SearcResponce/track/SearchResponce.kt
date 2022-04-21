@@ -1,4 +1,4 @@
-package com.msk.itunes.Responce.Data.SearcResponce
+package com.msk.itunes.Responce.Data.SearcResponce.track
 
 
 import com.google.gson.annotations.SerializedName

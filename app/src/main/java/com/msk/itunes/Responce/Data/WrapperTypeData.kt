@@ -1,6 +1,6 @@
 package com.msk.itunes.Responce.Data
 
-import com.msk.itunes.Responce.Data.SearcResponce.Result
+import com.msk.itunes.Responce.Data.SearcResponce.track.Result
 
 data class WrapperTypeData(
     val track:MutableList<Result> = mutableListOf(),

@@ -1,6 +1,6 @@
 package com.msk.itunes.Api
 
-import com.msk.itunes.Responce.Data.SearcResponce.SearchResponce
+import com.msk.itunes.Responce.Data.SearcResponce.track.SearchResponce
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -11,9 +11,11 @@ interface itunesApi {
         @Query("term")
         term:String,
         @Query("limit")
-        limit:Int=50,
+        limit:Int=25,
         @Query("offset")
-        offset:Int
-    ):SearchResponce
+        offset:Int,
+        @Query("media")
+        media: String
+    ): SearchResponce
 
 }
