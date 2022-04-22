@@ -20,19 +20,23 @@ import javax.inject.Inject
 class SearchScreenViewModel @Inject constructor ( private val repository: SearchRepository):ViewModel() {
 
 
-    private val _MediaData: MutableStateFlow<MutableList<MediaTypeDataClass>> = MutableStateFlow(mutableListOf())
-    val MediaData: MutableStateFlow<MutableList<MediaTypeDataClass>> =_MediaData
+    private val _MediaData: MutableStateFlow<List<MediaTypeDataClass>> = MutableStateFlow(mutableListOf())
+    val MediaData: MutableStateFlow<List<MediaTypeDataClass>> =_MediaData
 
     private val _SearchStates:MutableStateFlow<SearchState> = MutableStateFlow(SearchState())
     val SearchState:StateFlow<SearchState> =_SearchStates
 
 
 
+
+    var searchquery=""
+        private set
     fun OnEvent(SearchEvent: SearchEvent) {
         when (SearchEvent) {
             is SearchEvent.Searchquery->{
                 onsearch(SearchEvent.query)
             }
+
         }
     }
 
@@ -40,59 +44,23 @@ class SearchScreenViewModel @Inject constructor ( private val repository: Search
 
     private fun onsearch(query: String) {
         _SearchStates.value=SearchState.value.copy(isLoading = true)
+        searchquery=query
+        _MediaData.value= listOf()
         viewModelScope.launch(Dispatchers.IO) {
-            val list = mutableListOf<MediaTypeDataClass>()
             Constants.MediaType.forEach {type->
                 async {
-                    repository.Search(query = query, offset = 0, type = type).onEach { Results ->
+                    repository.Search(query = query, offset = 0, type = type, limit = 10).onEach { Results ->
 
                         _SearchStates.value = SearchState.value.copy(isLoading = false)
                         Results.onSuccess {
-                            list.add(MediaTypeDataClass(type, it.results))
+                            _MediaData.value=MediaData.value+ listOf(MediaTypeDataClass(type,it.results))
+
                         }
                     }.launchIn(this)
                 }.await()
 
             }
-
-            _MediaData.value = list
-
         }
     }
 }
 
-/*private fun LoadNewPage() {
-       if (pageJob?.isActive ?: false||searchquery.isBlank()) {
-           return
-       }
-       _SearchStates.value=SearchState.value.copy(isLoading = true)
-       pageJob = viewModelScope.launch {
-           repository.Search(searchquery, currentPage).onEach {
-
-               it.onSuccess {
-                   OnSucces(it)
-               }
-               it.onFailure {
-                   Log.d("hata",it.localizedMessage)
-                   _SearchStates.value=SearchState.value.copy(isLoading = false)
-               }
-
-           }.launchIn(this)
-
-
-       }
-   }
-
-   private fun OnSucces(it: WrapperTypeData) {
-       var newdata:WrapperTypeData
-       WrapperData.value.let {data->
-           newdata=WrapperTypeData(track = (data.track +it.track).toMutableList(), audiobook =(data.audiobook +it.audiobook).toMutableList() )
-
-       }
-       if (it.audiobook.isEmpty()) _SearchStates.value=SearchState.value.copy(audiobookEndReached = true)
-       if (it.track.isEmpty()) _SearchStates.value=SearchState.value.copy(trackEndReached = true)
-
-       _WrapperData.value=newdata
-       _SearchStates.value=SearchState.value.copy(isLoading = false)
-       currentPage+=50
-   }*/
