@@ -8,11 +8,11 @@ import javax.inject.Inject
 
 class SearchRepositoryImp @Inject constructor(private val api:itunesApi):SearchRepository {
 
-   override fun  Search(query:String,offset:Int,type:String): Flow<Result<SearchResponce>> {
+   override fun  Search(query:String,offset:Int,type:String,limit:Int): Flow<Result<SearchResponce>> {
 
        return flow {
            try {
-               val responce=api.searchItunes(query, offset = offset, media =type )
+               val responce=api.searchItunes(query, offset = offset, media =type, limit = limit )
                emit(Result.success(responce))
            }catch (e:Exception){
                emit(Result.failure(e))
