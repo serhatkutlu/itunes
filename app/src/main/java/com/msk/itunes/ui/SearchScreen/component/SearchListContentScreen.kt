@@ -9,10 +9,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.msk.itunes.Responce.Data.SearcResponce.track.Result
 import com.msk.itunes.ui.SearchScreen.SearchScreenViewModel
 
 @Composable
-fun SearchListContentScreen(viewModel: SearchScreenViewModel, onClickRow:(String)->Unit, onclickBox: () -> Unit ) {
+fun SearchListContentScreen(viewModel: SearchScreenViewModel, onClickRow:(String)->Unit, onclickBox: (Result) -> Unit ) {
 
     val mediaData=viewModel.MediaData.collectAsState()
     val columnstate= rememberLazyListState()

@@ -20,12 +20,14 @@ fun LazyGrid(
     data: List<Result>,
     viewModel: GridScreenViewmodel,
     type:String,
-    searchquery: String
+    searchquery: String,
+    onclikBox:(Result)->Unit
+
 ) {
     val searchstate=viewModel.SearchState.collectAsState()
     LazyVerticalGrid(
 
-        cells = GridCells.Adaptive(200.dp),
+        cells = GridCells.Adaptive(180.dp),
         horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterHorizontally),
         contentPadding = PaddingValues(horizontal = 10.dp, vertical = 10.dp),
     ) {
@@ -35,7 +37,7 @@ fun LazyGrid(
                 viewModel.OnEvent(GridScreenEvent.LoadNewPage(type=type, searchQuery = searchquery))
             }
 
-            BoxScreen(data[item], Modifier.height(350.dp).width(180.dp).padding(5.dp)){}
+            BoxScreen(data[item], Modifier.height(350.dp).width(180.dp).padding(5.dp), onclickBox =onclikBox )
 
 
         }

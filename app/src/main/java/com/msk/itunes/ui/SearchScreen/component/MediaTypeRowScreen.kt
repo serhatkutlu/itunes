@@ -12,9 +12,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.msk.itunes.Data.MediaTypeDataClass
+import com.msk.itunes.Responce.Data.SearcResponce.track.Result
 
 @Composable
-fun MediaTypeRowScreen(mediaTypeDataClass: MediaTypeDataClass, onClickRow:(String)->Unit, onclickBox: () -> Unit) {
+fun MediaTypeRowScreen(mediaTypeDataClass: MediaTypeDataClass, onClickRow:(String)->Unit, onclickBox: (Result) -> Unit) {
     Column(modifier = Modifier.fillMaxWidth().height(300.dp)) {
         Box(modifier = Modifier.fillMaxWidth().padding(horizontal = 30.dp).clickable { onClickRow(mediaTypeDataClass.mediaType) }){
             Text(mediaTypeDataClass.mediaType, style = MaterialTheme.typography.h4, modifier = Modifier.align(
