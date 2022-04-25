@@ -13,3 +13,7 @@ fun String.changeImageQuality(string: String):String{
         .toString()
 
 }
+
+fun String.dateparser():String{
+    return this.substring(0,10)
+}
