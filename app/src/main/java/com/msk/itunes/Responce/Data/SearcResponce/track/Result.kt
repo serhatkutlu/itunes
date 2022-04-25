@@ -125,7 +125,7 @@ data class Result(
     @SerializedName("minimumOsVersion")
     val minimumOsVersion: String?=null, // 9
     @SerializedName("price")
-    val price: Double, // 0.00
+    val price: Double?=null, // 0.00
     @SerializedName("primaryGenreId")
     val primaryGenreId: Int?=null, // 6014
     @SerializedName("releaseNotes")
