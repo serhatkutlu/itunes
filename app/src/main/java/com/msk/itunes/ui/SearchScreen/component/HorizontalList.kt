@@ -12,13 +12,13 @@ import com.msk.itunes.Responce.Data.SearcResponce.track.Result
 import com.msk.itunes.ui.component.BoxScreen
 
 @Composable
-fun HorizontalList(result: List<Result>, onclickBox: () -> Unit) {
+fun HorizontalList(result: List<Result>, onclickBox: (Result) -> Unit) {
 
     val state= rememberLazyListState()
     LazyRow (state = state){
         items(result.size){item->
             BoxScreen(result[item],
-                Modifier.height(300.dp).width(150.dp).padding(horizontal = 5.dp),onclickBox)
+                Modifier.height(300.dp).width(150.dp).padding(horizontal = 5.dp), onclickBox = onclickBox)
         }
     }
 }

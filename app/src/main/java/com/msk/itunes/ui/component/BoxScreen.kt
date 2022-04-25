@@ -21,9 +21,9 @@ import com.msk.itunes.Util.changeImageQuality
 
 @OptIn(ExperimentalMaterialApi::class, coil.annotation.ExperimentalCoilApi::class)
 @Composable
-fun BoxScreen(result: Result, modifier: Modifier, onclickBox:()->Unit) {
-    Column (modifier = modifier.clickable { onclickBox() }){
-        Card(shape = AbsoluteRoundedCornerShape(10.dp), modifier = Modifier.fillMaxWidth().fillMaxHeight(0.8f), onClick = {}) {
+fun BoxScreen(result: Result, modifier: Modifier, onclickBox:(Result)->Unit) {
+    Column (modifier = modifier.clickable { onclickBox(result) }){
+        Card(shape = AbsoluteRoundedCornerShape(10.dp), modifier = Modifier.fillMaxWidth().fillMaxHeight(0.8f)) {
             val painter= rememberImagePainter(data=result.artworkUrl100?.changeImageQuality("200x200"))
             when(painter.state){
                 is ImagePainter.State.Loading->{
