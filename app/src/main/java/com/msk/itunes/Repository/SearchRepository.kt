@@ -6,5 +6,5 @@ import kotlinx.coroutines.flow.Flow
 interface SearchRepository {
 
     fun  Search(query:String,offset:Int,type: String,limit:Int): Flow<Result<SearchResponce>>
-
+    fun SearchId(id:Int):Flow<Result<SearchResponce>>
     }

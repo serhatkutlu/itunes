@@ -19,4 +19,17 @@ class SearchRepositoryImp @Inject constructor(private val api:itunesApi):SearchR
            }
        }
    }
+
+    override fun SearchId(id: Int): Flow<Result<SearchResponce>> {
+        return flow {
+            try {
+                val responce=api.searchid(id)
+                emit(Result.success(responce))
+            }catch (e:Exception){
+                emit(Result.failure(e))
+            }
+        }
+    }
+
+
 }
