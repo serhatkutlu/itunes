@@ -88,6 +88,9 @@ dependencies {
     implementation "io.coil-kt:coil-compose:1.4.0"
     implementation "com.google.accompanist:accompanist-coil:0.7.0"
 
+    //exoplayer
+    implementation 'com.google.android.exoplayer:exoplayer:2.16.1'
+
 
 
 
