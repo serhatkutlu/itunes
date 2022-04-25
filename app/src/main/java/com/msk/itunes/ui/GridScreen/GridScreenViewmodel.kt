@@ -55,6 +55,8 @@ private fun LoadNewPage() {
            repository.Search(searchquery, currentPage,type,25).onEach {
 
                it.onSuccess {
+                   if (it.results.isNullOrEmpty()) _SearchStates.value=SearchState.value.copy(endReached = true)
+                    Log.d("hata",type+"______"+it.results.size)
                    _DataState.emit(DataState.value+it.results)
                    _SearchStates.value=SearchState.value.copy(isLoading = false)
                    currentPage+=25
