@@ -13,6 +13,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.msk.itunes.Responce.Data.SearcResponce.track.Result
 import com.msk.itunes.ui.GridScreen.component.LazyGrid
+import com.msk.itunes.ui.component.NoInternetConnectionScreen
 import com.msk.moviesapplication.ui.Util.ituneScreenRoute
 
 
@@ -32,6 +33,12 @@ fun GridScreen(
     }
     LaunchedEffect(Unit) {
         viewmodel.OnEvent(GridScreenEvent.LoadNewPage(searchquery,type))
+    }
+    if(searchstate.value.isFailature==true){
+        NoInternetConnectionScreen {
+            viewmodel.OnEvent(GridScreenEvent.LoadNewPage(searchquery,type))
+
+        }
     }
     Box (modifier = Modifier.fillMaxSize()){
 
