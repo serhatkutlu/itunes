@@ -38,7 +38,7 @@ import com.msk.itunes.ui.component.rememberWindowInfo
 import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
-fun DetailScreen(id:Int) {
+fun DetailScreen(id:Int,type:String) {
     val viewModel = hiltViewModel<DetailScreenViewModel>()
     val result = viewModel.result.collectAsState().value
     val idRegistered=viewModel.idFavorite.collectAsState().value
@@ -47,6 +47,9 @@ fun DetailScreen(id:Int) {
     var nametextStyle=MaterialTheme.typography.h5
     var IconSize=40.dp
 
+    val onClick={
+        viewModel.OnEvent(DetailScreenEvent.ClickFavorite(id,type))
+    }
     if (rememberWindowInfo().screenWidthInfo is WindowInfo.WindowType.Compact){
          textstyle=MaterialTheme.typography.h6
          nametextStyle=MaterialTheme.typography.h5
@@ -91,7 +94,7 @@ fun DetailScreen(id:Int) {
                         modifier = Modifier.clickable { context.startActivity(webIntent) }.size(IconSize))
                 }
                 val icon=if (idRegistered)Icons.Default.Favorite else Icons.Default.FavoriteBorder
-                Icon(icon,contentDescription = null, tint = Color.Red,modifier=Modifier.size(IconSize).clickable { viewModel.OnEvent(DetailScreenEvent.ClickFavorite(id)) })
+                Icon(icon,contentDescription = null, tint = Color.Red,modifier=Modifier.size(IconSize).clickable { onClick() })
             }
             Spacer(modifier = Modifier.height(10.dp))
 

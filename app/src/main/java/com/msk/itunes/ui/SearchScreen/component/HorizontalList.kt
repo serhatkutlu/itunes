@@ -8,16 +8,17 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.msk.itunes.Data.MediaTypeDataClass
 import com.msk.itunes.Responce.Data.SearcResponce.track.Result
 import com.msk.itunes.ui.component.BoxScreen
 
 @Composable
-fun HorizontalList(result: List<Result>, onclickBox: (Result) -> Unit) {
+fun HorizontalList(result: MediaTypeDataClass, onclickBox: (Result, String) -> Unit) {
 
     val state= rememberLazyListState()
     LazyRow (state = state){
-        items(result.size){item->
-            BoxScreen(result[item],
+        items(result.result.size){item->
+            BoxScreen(result.result[item],type=result.mediaType,
                 Modifier.height(300.dp).width(150.dp).padding(horizontal = 5.dp), onclickBox = onclickBox)
         }
     }

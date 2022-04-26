@@ -13,7 +13,7 @@ import com.msk.itunes.Responce.Data.SearcResponce.track.Result
 import com.msk.itunes.ui.SearchScreen.SearchScreenViewModel
 
 @Composable
-fun SearchListContentScreen(viewModel: SearchScreenViewModel, onClickRow:(String)->Unit, onclickBox: (Result) -> Unit ) {
+fun SearchListContentScreen(viewModel: SearchScreenViewModel, onClickRow:(String)->Unit, onclickBox: (Result,String) -> Unit ) {
 
     val mediaData=viewModel.MediaData.collectAsState()
     val columnstate= rememberLazyListState()

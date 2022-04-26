@@ -31,13 +31,15 @@ class MainActivity : ComponentActivity() {
                     composable(route= ituneScreenRoute.SearchScreen.route){
                         SearchScreen(navController)
                     }
-                    composable(route= ituneScreenRoute.DetailScreen.route+"/{result}", arguments = listOf(
+                    composable(route= ituneScreenRoute.DetailScreen.route+"/{result}/{type}", arguments = listOf(
                         navArgument("result"){
                             type= NavType.IntType
+                        }, navArgument("type"){
+                            type= NavType.StringType
                         }
                     )){
 
-                        DetailScreen(it.arguments!!.getInt("result"))
+                        DetailScreen(it.arguments!!.getInt("result"),it.arguments?.getString("type") ?: "")
                     }
                     composable(route= ituneScreenRoute.GridScreen.route+"/{type}/{searchquery}", arguments = listOf(
                         navArgument("type"){

@@ -21,7 +21,7 @@ fun LazyGrid(
     viewModel: GridScreenViewmodel,
     type:String,
     searchquery: String,
-    onclikBox:(Result)->Unit
+    onclikBox:(Result,String)->Unit
 
 ) {
     val searchstate=viewModel.SearchState.collectAsState()
@@ -37,7 +37,7 @@ fun LazyGrid(
                 viewModel.OnEvent(GridScreenEvent.LoadNewPage(type=type, searchQuery = searchquery))
             }
 
-            BoxScreen(data[item], Modifier.height(350.dp).width(180.dp).padding(5.dp), onclickBox =onclikBox )
+            BoxScreen(data[item], type = type, Modifier.height(350.dp).width(180.dp).padding(5.dp), onclickBox =onclikBox )
 
 
         }

@@ -15,7 +15,7 @@ import com.msk.itunes.Data.MediaTypeDataClass
 import com.msk.itunes.Responce.Data.SearcResponce.track.Result
 
 @Composable
-fun MediaTypeRowScreen(mediaTypeDataClass: MediaTypeDataClass, onClickRow:(String)->Unit, onclickBox: (Result) -> Unit) {
+fun MediaTypeRowScreen(mediaTypeDataClass: MediaTypeDataClass, onClickRow:(String)->Unit, onclickBox: (Result,String) -> Unit) {
     Column(modifier = Modifier.fillMaxWidth().height(300.dp)) {
         Box(modifier = Modifier.fillMaxWidth().padding(horizontal = 30.dp).clickable { onClickRow(mediaTypeDataClass.mediaType) }){
             Text(mediaTypeDataClass.mediaType, style = MaterialTheme.typography.h4, modifier = Modifier.align(
@@ -26,7 +26,7 @@ fun MediaTypeRowScreen(mediaTypeDataClass: MediaTypeDataClass, onClickRow:(Strin
 
         }
 
-        HorizontalList(mediaTypeDataClass.result,onclickBox)
+        HorizontalList(mediaTypeDataClass,onclickBox)
     }
 
 }

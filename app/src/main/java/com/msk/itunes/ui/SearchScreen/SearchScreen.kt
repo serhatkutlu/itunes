@@ -39,9 +39,9 @@ fun SearchScreen(navController: NavHostController) {
     val text = remember {
         mutableStateOf("")
     }
-    val onclickBox: (Result) -> Unit = {
+    val onclickBox: (Result,String) -> Unit = {it,type->
         val id = it.trackId ?: it.collectionId ?: 1
-        navController.navigate(ituneScreenRoute.DetailScreen.route + "/$id")
+        navController.navigate(ituneScreenRoute.DetailScreen.route + "/$id/$type")
     }
 
     val onClickRow: (String) -> Unit = {

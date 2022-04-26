@@ -26,7 +26,7 @@ class DetailScreenViewModel @Inject constructor(private val repository: DetailRe
         when(event){
             is DetailScreenEvent.LoadDetail-> onsearch(event.id)
             is DetailScreenEvent.CheckFavorite-> CheckSavedId(event.id)
-            is DetailScreenEvent.ClickFavorite-> ClickFavorite(event.id)
+            is DetailScreenEvent.ClickFavorite-> ClickFavorite(event.id,event.type)
         }
     }
 
@@ -48,14 +48,14 @@ class DetailScreenViewModel @Inject constructor(private val repository: DetailRe
 
         }
     }
-    private fun ClickFavorite(id:Int){
+    private fun ClickFavorite(id:Int,type:String){
         viewModelScope.launch {
             if (idFavorite.value){
                 repository.deleteFavoriteID(id)
                 _idFavorite.value=false
             }
             else{
-                repository.saveid(id)
+                repository.saveid(id,type)
                 _idFavorite.value=true
             }
         }

@@ -26,9 +26,9 @@ fun GridScreen(
     val searchstate=viewmodel.SearchState.collectAsState()
     val datastate=viewmodel.DataState.collectAsState()
 
-    val onClickBox:(Result)->Unit={
+    val onClickBox:(Result,String)->Unit={it,type->
         val id=it.trackId ?: it.collectionId ?: 1
-        navigation.navigate(ituneScreenRoute.DetailScreen.route+"/$id")
+        navigation.navigate(ituneScreenRoute.DetailScreen.route+"/$id/$type")
     }
     LaunchedEffect(Unit) {
         viewmodel.OnEvent(GridScreenEvent.LoadNewPage(searchquery,type))

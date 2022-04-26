@@ -7,5 +7,6 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "savedID")
 data class SavedId(
     @PrimaryKey
-    val id:Int
+    val id:Int,
+    val type:String
 )
