@@ -1,5 +1,6 @@
 package com.msk.itunes.Repository.DetailRepository
 
+import android.util.Log
 import com.msk.itunes.Api.itunesApi
 import com.msk.itunes.Data.Entity.SavedId
 import com.msk.itunes.Db.Dao
@@ -32,5 +33,9 @@ class DetailRepositoryImp @Inject constructor(private val api: itunesApi,private
         }catch (e:Exception){
             emit(false)
         }
+    }
+
+    override suspend fun deleteFavoriteID(id: Int) {
+        dao.deleteById(id)
     }
 }
