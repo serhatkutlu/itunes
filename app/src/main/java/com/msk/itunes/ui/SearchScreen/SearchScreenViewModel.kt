@@ -25,6 +25,9 @@ class SearchScreenViewModel @Inject constructor ( private val repository: Search
     val SearchState:StateFlow<SearchState> =_SearchStates
 
 
+     private val _CloseKeyboard:MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val CloseKeyboard:StateFlow<Boolean> =_CloseKeyboard
+
 
 
     var searchquery=""
@@ -33,6 +36,7 @@ class SearchScreenViewModel @Inject constructor ( private val repository: Search
         when (SearchEvent) {
             is SearchEvent.Searchquery->{
                 onsearch(SearchEvent.query)
+                _CloseKeyboard.value=true
             }
 
         }
