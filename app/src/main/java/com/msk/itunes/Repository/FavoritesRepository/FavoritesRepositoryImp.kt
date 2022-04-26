@@ -1,5 +1,6 @@
 package com.msk.itunes.Repository.FavoritesRepository
 
+import android.util.Log
 import com.msk.itunes.Api.itunesApi
 import com.msk.itunes.Data.Entity.SavedId
 import com.msk.itunes.Db.Dao
@@ -9,10 +10,10 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class FavoritesRepositoryImp @Inject constructor( private val dao:Dao,private val api: itunesApi):FavoritesRepository {
-      override suspend fun getFavoriteId(pageSize: Int, pageIndex: Int): Flow<Result<List<SavedId>>> {
+      override suspend fun getFavoriteId(): Flow<Result<List<SavedId>>> {
          return flow {
             try {
-                val result=dao.getIdlist(pageSize,pageIndex)
+                val result=dao.getIdlist()
                 emit( Result.success(result))
             }catch (e:Exception){
                 emit(Result.failure(e))
