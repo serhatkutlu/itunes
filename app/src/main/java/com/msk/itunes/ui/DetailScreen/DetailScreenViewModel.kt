@@ -7,10 +7,7 @@ import com.msk.itunes.Repository.SearchRepository.SearchRepository
 import com.msk.itunes.Responce.Data.SearcResponce.track.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,12 +18,15 @@ class DetailScreenViewModel @Inject constructor(private val repository: DetailRe
     private val _result: MutableStateFlow<Result?> = MutableStateFlow(null)
      val result:StateFlow<Result?> =_result
 
-
+    private val _idFavorite:MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val idFavorite:StateFlow<Boolean> = _idFavorite
 
 
     fun OnEvent(event: DetailScreenEvent){
         when(event){
             is DetailScreenEvent.LoadDetail-> onsearch(event.id)
+            is DetailScreenEvent.CheckFavorite-> CheckSavedId(event.id)
+            is DetailScreenEvent.ClickFavorite-> ClickFavorite(event.id)
         }
     }
 
@@ -38,5 +38,27 @@ class DetailScreenViewModel @Inject constructor(private val repository: DetailRe
                  }
              }.launchIn(this)
         }
+    }
+
+    private fun CheckSavedId(id:Int){
+        viewModelScope.launch {
+            repository.Checkid(id).onEach{
+                _idFavorite.value = it
+            }.launchIn(this)
+
+        }
+    }
+    private fun ClickFavorite(id:Int){
+        viewModelScope.launch {
+            if (idFavorite.value){
+                repository.deleteFavoriteID(id)
+                _idFavorite.value=false
+            }
+            else{
+                repository.saveid(id)
+                _idFavorite.value=true
+            }
+        }
+
     }
 }

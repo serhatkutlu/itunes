@@ -34,7 +34,7 @@ fun image(url:String?,modifier: Modifier = Modifier){
     Log.d("hata", LocalConfiguration.current.screenHeightDp.toString())
     Log.d("hata", LocalConfiguration.current.screenWidthDp.toString())
     val painter= rememberImagePainter(data = url, builder = {
-        transformations(RoundedCornersTransformation(bottomRight = 10f, bottomLeft = 10f))
+        transformations(RoundedCornersTransformation(10f))
     })
     when(painter.state){
         is ImagePainter.State.Loading->{

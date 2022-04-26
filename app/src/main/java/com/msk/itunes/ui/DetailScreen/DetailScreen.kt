@@ -4,6 +4,7 @@ package com.msk.itunes.ui.DetailScreen
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -14,9 +15,10 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -31,13 +33,35 @@ import com.msk.itunes.Util.changeImageQuality
 import com.msk.itunes.Util.dateparser
 import com.msk.itunes.ui.DetailScreen.component.DetailBox
 import com.msk.itunes.ui.DetailScreen.component.image
+import com.msk.itunes.ui.component.WindowInfo
+import com.msk.itunes.ui.component.rememberWindowInfo
 import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
 fun DetailScreen(id:Int) {
     val viewModel = hiltViewModel<DetailScreenViewModel>()
     val result = viewModel.result.collectAsState().value
+    val idRegistered=viewModel.idFavorite.collectAsState().value
+
+    var textstyle=MaterialTheme.typography.h6
+    var nametextStyle=MaterialTheme.typography.h5
+    var IconSize=40.dp
+
+    if (rememberWindowInfo().screenWidthInfo is WindowInfo.WindowType.Compact){
+         textstyle=MaterialTheme.typography.h6
+         nametextStyle=MaterialTheme.typography.h5
+
+        IconSize=40.dp
+    }else{
+         textstyle=MaterialTheme.typography.h5
+         nametextStyle=MaterialTheme.typography.h4
+
+        IconSize=70.dp
+    }
+
+
     LaunchedEffect(true) {
+        viewModel.OnEvent(DetailScreenEvent.CheckFavorite(id))
         viewModel.OnEvent(DetailScreenEvent.LoadDetail(id))
     }
 
@@ -46,98 +70,91 @@ fun DetailScreen(id:Int) {
     LazyColumn {
 
         item {
+            Spacer(modifier = Modifier.height(30.dp))
+
             image(
                 result.artworkUrl100?.changeImageQuality("300x300"),
                 modifier = Modifier
             )
-            Spacer(modifier = Modifier.height(15.dp))
-        }
+            Spacer(modifier = Modifier.height(10.dp))
 
-        if (!result.previewUrl.isNullOrBlank()){
-            item {
-                val height= LocalConfiguration.current.screenHeightDp/2
-                ExoPlayer(result.previewUrl,Modifier.fillMaxWidth().height(height.dp))
+            Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth().padding(horizontal = 30.dp)) {
+                if (!result.trackViewUrl.isNullOrBlank() || !result.collectionViewUrl.isNullOrBlank()) {
+                    val context = LocalContext.current
+                    val webIntent = Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse(result.trackViewUrl ?: result.collectionViewUrl)
+                    )
+                    Icon(
+                        Icons.Default.OpenInNew,
+                        contentDescription = null,
+                        modifier = Modifier.clickable { context.startActivity(webIntent) }.size(IconSize))
+                }
+                val icon=if (idRegistered)Icons.Default.Favorite else Icons.Default.FavoriteBorder
+                Icon(icon,contentDescription = null, tint = Color.Red,modifier=Modifier.size(IconSize).clickable { viewModel.OnEvent(DetailScreenEvent.ClickFavorite(id)) })
             }
+            Spacer(modifier = Modifier.height(10.dp))
+
+            if (!result.previewUrl.isNullOrBlank()){
+
+
+                ExoPlayer(result.previewUrl,Modifier.fillMaxWidth().height(300.dp))
+
         }
-        if (!result.screenshotUrls.isNullOrEmpty()){
-            item{
+            Spacer(modifier = Modifier.height(20.dp))
+
+            if (!result.screenshotUrls.isNullOrEmpty()){
+
                 screenshots(result.screenshotUrls)
-                Spacer(modifier = Modifier.height(7.dp))
+                Spacer(modifier = Modifier.height(5.dp))
                 Divider()
-                Spacer(modifier = Modifier.height(7.dp))
-
+                Spacer(modifier = Modifier.height(20.dp))
 
             }
-        }
         if (!result.trackName.isNullOrBlank() || !result.collectionName.isNullOrBlank()) {
-        item {
             Box(modifier=Modifier.fillMaxWidth()){
-                Text(text = result.trackName ?: result.collectionName ?: "" , style = MaterialTheme.typography.h6, textAlign = TextAlign.Center, modifier = Modifier.align(
-                    Alignment.Center))
+                Text(text = result.trackName ?: result.collectionName ?: "" , style = nametextStyle, textAlign = TextAlign.Center, modifier = Modifier.align(
+                    Alignment.Center), fontWeight = FontWeight.Bold)
 
                 }
             Spacer(modifier = Modifier.height(5.dp))
             Divider()
             Spacer(modifier = Modifier.height(5.dp))
-
-        }
-    }
-        if (!result.trackViewUrl.isNullOrBlank()||!result.collectionViewUrl.isNullOrBlank()){
-            item {
-                val context = LocalContext.current
-                val webIntent: Intent = Intent(Intent.ACTION_VIEW, Uri.parse(result.trackViewUrl ?: result.collectionViewUrl))
-                Box(Modifier.fillMaxWidth()) {
-                    OutlinedButton(onClick = { context.startActivity(webIntent) }, modifier = Modifier.padding(8.dp).align(
-                        Alignment.Center)) {
-                        Text( text = "OPEN", style = MaterialTheme.typography.h6, fontWeight = FontWeight.ExtraBold
-                        )
-                    }
-                }
-
-                Spacer(modifier = Modifier.height(5.dp))
-                Divider()
-                Spacer(modifier = Modifier.height(5.dp))
-            }
         }
 
 
-        item{
-            DetailRow(result)
+            DetailRow(result,textstyle)
             Spacer(modifier = Modifier.height(5.dp))
             Divider()
             Spacer(modifier = Modifier.height(5.dp))
 
-        }
+
 
         if (!result.kind.isNullOrBlank()){
-            item {
-                detailsText(key = "Kind", value =result.kind, style = MaterialTheme.typography.h6 )
+                detailsText(key = "Kind", value =result.kind, style = textstyle )
                 Spacer(modifier = Modifier.height(5.dp))
                 Divider()
                 Spacer(modifier = Modifier.height(5.dp))
 
-            }
+
 
         }
         if (!result.primaryGenreName.isNullOrBlank()){
-            item {
-                detailsText(key = "Genre", value =result.primaryGenreName, style = MaterialTheme.typography.h6 )
+                detailsText(key = "Genre", value =result.primaryGenreName, style = textstyle )
                 Spacer(modifier = Modifier.height(5.dp))
                 Divider()
                 Spacer(modifier = Modifier.height(5.dp))
-            }
+
 
         }
 
         if (!result.description.isNullOrBlank() ||!result.shortDescription.isNullOrBlank() || !result.longDescription.isNullOrBlank()) {
-            item {
                 val text =
                     result.description ?: result.shortDescription ?: result.longDescription ?: ""
-                Text("Description : " + text, style = MaterialTheme.typography.h6,modifier=Modifier.padding(horizontal = 20.dp))
-                Spacer(modifier = Modifier.height(5.dp))
-                Divider()
-                Spacer(modifier = Modifier.height(5.dp))
+                Text("Description : " + text, style = textstyle,modifier=Modifier.padding(horizontal = 20.dp))
+
             }
+            Spacer(modifier = Modifier.height(80.dp))
         }
     }
 }
@@ -173,21 +190,21 @@ fun screenshots(screenshotUrls: List<String>) {
     }
 }
 @Composable
-fun DetailRow(result:Result){
+fun DetailRow(result:Result,style: TextStyle){
     Box(modifier = Modifier.fillMaxWidth()){
         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.align(
             Alignment.Center)) {
             result.releaseDate?.let {
-                DetailBox(vector = Icons.Default.DateRange, name = "release date", value =it.dateparser() )
+                DetailBox(vector = Icons.Default.DateRange, name = "release date", value =it.dateparser(),style=style )
                 Spacer(Modifier.width(20.dp))
             }
             if (result.price!=null||result.collectionPrice!=null) {
-                DetailBox(vector = Icons.Default.AttachMoney, name = "price", value =result.price?.toString() ?: result.collectionPrice?.toString() ?: "" )
+                DetailBox(vector = Icons.Default.AttachMoney, name = "price", value =result.price?.toString() ?: result.collectionPrice?.toString() ?: "" ,style)
                 Spacer(Modifier.width(20.dp))
 
             }
             result.trackTimeMillis?.let {
-                DetailBox(vector = Icons.Default.AccessTime, name = "duration", value =it.milliseconds.toString() )
+                DetailBox(vector = Icons.Default.AccessTime, name = "duration", value =it.milliseconds.toString(),style )
                 Spacer(Modifier.width(20.dp))
 
             }
