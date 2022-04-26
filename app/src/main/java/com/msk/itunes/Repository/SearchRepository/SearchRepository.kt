@@ -1,4 +1,4 @@
-package com.msk.itunes.Repository
+package com.msk.itunes.Repository.SearchRepository
 
 import com.msk.itunes.Responce.Data.SearcResponce.track.SearchResponce
 import kotlinx.coroutines.flow.Flow
@@ -6,5 +6,4 @@ import kotlinx.coroutines.flow.Flow
 interface SearchRepository {
 
     fun  Search(query:String,offset:Int,type: String,limit:Int): Flow<Result<SearchResponce>>
-    fun SearchId(id:Int):Flow<Result<SearchResponce>>
     }
