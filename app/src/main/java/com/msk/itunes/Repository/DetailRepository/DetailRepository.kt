@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface DetailRepository {
     suspend fun SearchId(id: Int): Flow<Result<SearchResponce>>
-    suspend fun saveid(id:Int,type:String)
+    suspend fun saveid(id:Int,type:String,ImageUrl:String,Name:String)
     suspend fun Checkid(id:Int):Flow<Boolean>
      suspend fun deleteFavoriteID(id: Int)
 

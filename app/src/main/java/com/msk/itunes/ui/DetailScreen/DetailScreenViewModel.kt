@@ -1,5 +1,6 @@
 package com.msk.itunes.ui.DetailScreen
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.msk.itunes.Repository.DetailRepository.DetailRepository
@@ -21,12 +22,14 @@ class DetailScreenViewModel @Inject constructor(private val repository: DetailRe
     private val _idFavorite:MutableStateFlow<Boolean> = MutableStateFlow(false)
     val idFavorite:StateFlow<Boolean> = _idFavorite
 
+    private val _isFailature:MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val isFailature:StateFlow<Boolean> =_isFailature
 
     fun OnEvent(event: DetailScreenEvent){
         when(event){
             is DetailScreenEvent.LoadDetail-> onsearch(event.id)
             is DetailScreenEvent.CheckFavorite-> CheckSavedId(event.id)
-            is DetailScreenEvent.ClickFavorite-> ClickFavorite(event.id,event.type)
+            is DetailScreenEvent.ClickFavorite-> ClickFavorite(event.id,event.type,event.ImageUrl,event.Name)
         }
     }
 
@@ -34,7 +37,12 @@ class DetailScreenViewModel @Inject constructor(private val repository: DetailRe
         viewModelScope.launch(Dispatchers.IO) {
              repository.SearchId(id).onEach {
                  it.onSuccess {
+                     _isFailature.value=false
                      _result.emit(it.results.firstOrNull())
+
+                 }
+                 it.onFailure {
+                     _isFailature.value=true
                  }
              }.launchIn(this)
         }
@@ -48,17 +56,16 @@ class DetailScreenViewModel @Inject constructor(private val repository: DetailRe
 
         }
     }
-    private fun ClickFavorite(id:Int,type:String){
+    private fun ClickFavorite(id:Int,type:String,ImageUrl:String,Name:String){
         viewModelScope.launch {
             if (idFavorite.value){
                 repository.deleteFavoriteID(id)
                 _idFavorite.value=false
             }
-            else{
-                repository.saveid(id,type)
+            else
+            { repository.saveid(id,type,ImageUrl,Name)
                 _idFavorite.value=true
             }
         }
-
     }
 }

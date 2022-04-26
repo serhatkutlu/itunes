@@ -3,6 +3,7 @@ package com.msk.itunes.ui.DetailScreen
 
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -33,6 +34,7 @@ import com.msk.itunes.Util.changeImageQuality
 import com.msk.itunes.Util.dateparser
 import com.msk.itunes.ui.DetailScreen.component.DetailBox
 import com.msk.itunes.ui.DetailScreen.component.image
+import com.msk.itunes.ui.component.NoInternetConnectionScreen
 import com.msk.itunes.ui.component.WindowInfo
 import com.msk.itunes.ui.component.rememberWindowInfo
 import kotlin.time.Duration.Companion.milliseconds
@@ -42,14 +44,16 @@ fun DetailScreen(id:Int,type:String) {
     val viewModel = hiltViewModel<DetailScreenViewModel>()
     val result = viewModel.result.collectAsState().value
     val idRegistered=viewModel.idFavorite.collectAsState().value
-
+    val isFailature=viewModel.isFailature.collectAsState().value
     var textstyle=MaterialTheme.typography.h6
     var nametextStyle=MaterialTheme.typography.h5
     var IconSize=40.dp
-
     val onClick={
-        viewModel.OnEvent(DetailScreenEvent.ClickFavorite(id,type))
+        viewModel.OnEvent(DetailScreenEvent.ClickFavorite(id,type
+            , result?.artworkUrl100?.changeImageQuality("300x300")?:"",
+            Name = result?.trackName ?: result?.collectionName?: ""))
     }
+
     if (rememberWindowInfo().screenWidthInfo is WindowInfo.WindowType.Compact){
          textstyle=MaterialTheme.typography.h6
          nametextStyle=MaterialTheme.typography.h5
@@ -62,12 +66,15 @@ fun DetailScreen(id:Int,type:String) {
         IconSize=70.dp
     }
 
-
     LaunchedEffect(true) {
         viewModel.OnEvent(DetailScreenEvent.CheckFavorite(id))
         viewModel.OnEvent(DetailScreenEvent.LoadDetail(id))
     }
 
+    if (isFailature){
+        NoInternetConnectionScreen({viewModel.OnEvent(DetailScreenEvent.LoadDetail(id)) })
+        return
+    }
     if (result == null) return
 
     LazyColumn {
