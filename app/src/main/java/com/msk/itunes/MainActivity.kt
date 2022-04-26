@@ -37,7 +37,7 @@ class MainActivity : ComponentActivity() {
                         }
                     )){
 
-                        DetailScreen(navController,it.arguments!!.getInt("result"))
+                        DetailScreen(it.arguments!!.getInt("result"))
                     }
                     composable(route= ituneScreenRoute.GridScreen.route+"/{type}/{searchquery}", arguments = listOf(
                         navArgument("type"){

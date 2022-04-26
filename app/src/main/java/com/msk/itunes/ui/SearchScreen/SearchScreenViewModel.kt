@@ -1,16 +1,14 @@
 package com.msk.itunes.ui.SearchScreen
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.msk.itunes.Data.MediaTypeDataClass
-import com.msk.itunes.Repository.SearchRepository
+import com.msk.itunes.Repository.SearchRepository.SearchRepository
 import com.msk.itunes.Util.Constants
 import com.msk.itunes.ui.SearchScreen.component.SearchState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch

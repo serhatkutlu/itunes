@@ -3,9 +3,8 @@ package com.msk.itunes.ui.GridScreen
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.msk.itunes.Repository.SearchRepository
+import com.msk.itunes.Repository.SearchRepository.SearchRepository
 import com.msk.itunes.Responce.Data.SearcResponce.track.Result
-import com.msk.itunes.ui.SearchScreen.SearchEvent
 import com.msk.itunes.ui.SearchScreen.component.SearchState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job

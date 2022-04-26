@@ -4,7 +4,6 @@ package com.msk.itunes.ui.DetailScreen
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -20,14 +19,11 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.ImagePainter
 import coil.compose.rememberImagePainter
-import com.msk.itunes.Repository.DetailScreenEvent
 import com.msk.itunes.Repository.component.ExoPlayer
 import com.msk.itunes.Repository.component.detailsText
 import com.msk.itunes.Responce.Data.SearcResponce.track.Result
@@ -38,7 +34,7 @@ import com.msk.itunes.ui.DetailScreen.component.image
 import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
-fun DetailScreen(navController: NavController,id:Int) {
+fun DetailScreen(id:Int) {
     val viewModel = hiltViewModel<DetailScreenViewModel>()
     val result = viewModel.result.collectAsState().value
     LaunchedEffect(true) {

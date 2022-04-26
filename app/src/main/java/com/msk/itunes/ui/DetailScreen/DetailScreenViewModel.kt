@@ -1,16 +1,12 @@
 package com.msk.itunes.ui.DetailScreen
 
-import androidx.compose.runtime.MutableState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.msk.itunes.Data.MediaTypeDataClass
-import com.msk.itunes.Repository.DetailScreenEvent
-import com.msk.itunes.Repository.SearchRepository
+import com.msk.itunes.Repository.DetailRepository.DetailRepository
+import com.msk.itunes.Repository.SearchRepository.SearchRepository
 import com.msk.itunes.Responce.Data.SearcResponce.track.Result
-import com.msk.itunes.Util.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
@@ -20,7 +16,7 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class DetailScreenViewModel @Inject constructor(private val repository: SearchRepository):ViewModel() {
+class DetailScreenViewModel @Inject constructor(private val repository: DetailRepository):ViewModel() {
 
     private val _result: MutableStateFlow<Result?> = MutableStateFlow(null)
      val result:StateFlow<Result?> =_result
@@ -28,7 +24,7 @@ class DetailScreenViewModel @Inject constructor(private val repository: SearchRe
 
 
 
-    fun OnEvent(event:DetailScreenEvent){
+    fun OnEvent(event: DetailScreenEvent){
         when(event){
             is DetailScreenEvent.LoadDetail-> onsearch(event.id)
         }
