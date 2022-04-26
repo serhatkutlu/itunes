@@ -1,5 +1,6 @@
 package com.msk.itunes.ui.SearchScreen
 
+import android.util.Log
 import androidx.compose.animation.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -24,11 +25,12 @@ import com.google.accompanist.pager.*
 import com.msk.itunes.Responce.Data.SearcResponce.track.Result
 import com.msk.itunes.ui.SearchScreen.component.SearchListContentScreen
 import com.msk.itunes.ui.SearchScreen.component.Searchbar
+import com.msk.itunes.ui.component.NoInternetConnectionScreen
 import com.msk.moviesapplication.ui.Util.ituneScreenRoute
 
 
 @OptIn(ExperimentalPagerApi::class,ExperimentalMaterialApi::class,
-    androidx.compose.ui.ExperimentalComposeUiApi::class
+    ExperimentalComposeUiApi::class
 )
 @Composable
 fun SearchScreen(navController: NavHostController) {
@@ -53,6 +55,10 @@ fun SearchScreen(navController: NavHostController) {
 
     if (viewModel.CloseKeyboard.collectAsState().value){
         LocalSoftwareKeyboardController.current?.hide()
+    }
+    if (searchstate.value.isFailature){
+        NoInternetConnectionScreen(onSearch)
+        return
     }
     Column {
 

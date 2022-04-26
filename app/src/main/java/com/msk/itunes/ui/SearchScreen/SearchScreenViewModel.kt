@@ -56,7 +56,11 @@ class SearchScreenViewModel @Inject constructor ( private val repository: Search
                         _SearchStates.value = SearchState.value.copy(isLoading = false)
                         Results.onSuccess {
                             _MediaData.value=MediaData.value+ listOf(MediaTypeDataClass(type,it.results))
+                            _SearchStates.value=SearchState.value.copy(isFailature = false)
 
+                        }
+                        Results.onFailure{
+                            _SearchStates.value=SearchState.value.copy(isFailature = true)
                         }
                     }.launchIn(this)
                 }.await()

@@ -31,8 +31,7 @@ fun image(url:String?,modifier: Modifier = Modifier){
 
     }
     val imagewidth= if(LocalConfiguration.current.screenWidthDp<840) 0.6f else 0.4f
-    Log.d("hata", LocalConfiguration.current.screenHeightDp.toString())
-    Log.d("hata", LocalConfiguration.current.screenWidthDp.toString())
+
     val painter= rememberImagePainter(data = url, builder = {
         transformations(RoundedCornersTransformation(10f))
     })

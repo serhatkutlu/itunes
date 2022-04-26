@@ -1,9 +1,11 @@
 package com.msk.itunes.Repository.SearchRepository
 
+import android.util.Log
 import com.msk.itunes.Api.itunesApi
 import com.msk.itunes.Responce.Data.SearcResponce.track.SearchResponce
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import java.net.UnknownHostException
 import javax.inject.Inject
 
 class SearchRepositoryImp @Inject constructor(private val api:itunesApi): SearchRepository {
@@ -14,8 +16,10 @@ class SearchRepositoryImp @Inject constructor(private val api:itunesApi): Search
            try {
                val responce=api.searchItunes(query, offset = offset, media =type, limit = limit )
                emit(Result.success(responce))
-           }catch (e:Exception){
+           }catch (e:UnknownHostException){
                emit(Result.failure(e))
+           }catch (e:Exception){
+
            }
        }
    }
