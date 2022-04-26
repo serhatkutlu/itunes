@@ -8,5 +8,7 @@ import androidx.room.PrimaryKey
 data class SavedId(
     @PrimaryKey
     val id:Int,
-    val type:String
+    val type:String,
+    val imageUrl:String,
+    val name:String
 )
