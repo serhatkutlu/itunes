@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface FavoritesRepository {
 
-    suspend fun getFavoriteId(pageSize:Int,pageIndex:Int): Flow<Result<List<SavedId>>>
+    suspend fun getFavoriteId(): Flow<Result<List<SavedId>>>
     suspend fun deleteFavoriteID(id:Int)
     fun SearchId(id: Int): Flow<Result<SearchResponce>>
 
