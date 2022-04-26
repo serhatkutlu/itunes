@@ -1,9 +1,16 @@
 package com.msk.itunes.Di
 
-import android.util.Log
+import android.app.Application
+import androidx.room.Room
 import com.msk.itunes.Api.itunesApi
-import com.msk.itunes.Repository.SearchRepository
-import com.msk.itunes.Repository.SearchRepositoryImp
+import com.msk.itunes.Db.Dao
+import com.msk.itunes.Db.itunesDatabase
+import com.msk.itunes.Repository.DetailRepository.DetailRepository
+import com.msk.itunes.Repository.DetailRepository.DetailRepositoryImp
+import com.msk.itunes.Repository.FavoritesRepository.FavoritesRepository
+import com.msk.itunes.Repository.FavoritesRepository.FavoritesRepositoryImp
+import com.msk.itunes.Repository.SearchRepository.SearchRepository
+import com.msk.itunes.Repository.SearchRepository.SearchRepositoryImp
 import com.msk.itunes.Util.Constants.BaseUrl
 import dagger.Module
 import dagger.Provides
@@ -48,8 +55,27 @@ object Module {
 
     @Provides
     @Singleton
-    fun provideRepository(api: itunesApi):SearchRepository{
+    fun provideSearchRepository(api: itunesApi): SearchRepository {
         return SearchRepositoryImp(api)
+    }
+    @Provides
+    @Singleton
+    fun provideDetailRepository(api: itunesApi,dao: Dao): DetailRepository {
+        return DetailRepositoryImp(api=api, dao = dao)
+    }
+@Provides
+    @Singleton
+    fun provideFavoritesRepository(api: itunesApi,dao: Dao): FavoritesRepository {
+        return FavoritesRepositoryImp(api = api, dao = dao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideDatabase(app:Application):Dao{
+      return Room.databaseBuilder(
+          app,itunesDatabase::class.java,
+        "ItunesDB").build().dao
+
     }
 
 
