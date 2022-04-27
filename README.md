@@ -22,7 +22,7 @@ The application where I listed the data I received from itunes
 
 # SCREENSHOT
 
-##Tablet
+## Tablet
 
 ![Ekran görüntüsü 2022-04-27 082054](https://user-images.githubusercontent.com/84921644/165447855-12b160a3-ba1e-4829-af04-26b0684d807e.png)
 ![Ekran görüntüsü 2022-04-27 081826](https://user-images.githubusercontent.com/84921644/165447860-b5999984-a3fa-4727-b440-cedef1dcc5db.png)
@@ -30,7 +30,7 @@ The application where I listed the data I received from itunes
 ![Ekran görüntüsü 2022-04-27 081947](https://user-images.githubusercontent.com/84921644/165447866-ece27a8a-9c8e-409d-8dcb-238bed3db214.png)
 
 
-##Phone
+## Phone
 
 
 ![Ekran görüntüsü 2022-04-27 082450](https://user-images.githubusercontent.com/84921644/165447936-1b775313-b537-487c-91e2-a2abae4ba1a5.png)
