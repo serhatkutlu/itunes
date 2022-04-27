@@ -9,7 +9,7 @@ import com.msk.moviesapplication.ui.Util.ituneScreenRoute
 
 sealed class BottomNavItem(var title:String, var icon:ImageVector, var screen_route:String){
 
-    object Search : BottomNavItem("Home", Icons.Default.Search, ituneScreenRoute.SearchScreen.route)
-    object Favorite: BottomNavItem("My Network",Icons.Default.FilterList,ituneScreenRoute.FavoriteScreen.route)
+    object Search : BottomNavItem("Search", Icons.Default.Search, ituneScreenRoute.SearchScreen.route)
+    object Favorite: BottomNavItem("Favorites",Icons.Default.FilterList,ituneScreenRoute.FavoriteScreen.route)
 
 }
