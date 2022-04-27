@@ -3,6 +3,7 @@ package com.msk.itunes.ui.DetailScreen
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.msk.itunes.Data.Entity.SavedId
 import com.msk.itunes.Repository.DetailRepository.DetailRepository
 import com.msk.itunes.Repository.SearchRepository.SearchRepository
 import com.msk.itunes.Responce.Data.SearcResponce.track.Result
@@ -29,7 +30,7 @@ class DetailScreenViewModel @Inject constructor(private val repository: DetailRe
         when(event){
             is DetailScreenEvent.LoadDetail-> onsearch(event.id)
             is DetailScreenEvent.CheckFavorite-> CheckSavedId(event.id)
-            is DetailScreenEvent.ClickFavorite-> ClickFavorite(event.id,event.type,event.ImageUrl,event.Name)
+            is DetailScreenEvent.ClickFavorite-> ClickFavorite(event.SavedId)
         }
     }
 
@@ -56,14 +57,14 @@ class DetailScreenViewModel @Inject constructor(private val repository: DetailRe
 
         }
     }
-    private fun ClickFavorite(id:Int,type:String,ImageUrl:String,Name:String){
+    private fun ClickFavorite(savedId: SavedId){
         viewModelScope.launch {
             if (idFavorite.value){
-                repository.deleteFavoriteID(id)
+                repository.deleteFavoriteID(savedId.id)
                 _idFavorite.value=false
             }
             else
-            { repository.saveid(id,type,ImageUrl,Name)
+            { repository.saveid(savedId)
                 _idFavorite.value=true
             }
         }

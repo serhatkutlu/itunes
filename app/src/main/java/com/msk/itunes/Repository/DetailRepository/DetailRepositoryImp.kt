@@ -22,8 +22,8 @@ class DetailRepositoryImp @Inject constructor(private val api: itunesApi,private
         }
     }
 
-    override suspend fun saveid(id:Int,type:String,ImageUrl:String,Name:String){
-        val savedId=SavedId(id = id,type=type,ImageUrl,Name)
+    override suspend fun saveid(Savedid:SavedId){
+        val savedId=Savedid
         dao.insertid(savedId)
     }
 

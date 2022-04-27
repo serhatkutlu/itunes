@@ -27,6 +27,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.ImagePainter
 import coil.compose.rememberImagePainter
+import com.msk.itunes.Data.Entity.SavedId
 import com.msk.itunes.Repository.component.ExoPlayer
 import com.msk.itunes.Repository.component.detailsText
 import com.msk.itunes.Responce.Data.SearcResponce.track.Result
@@ -49,9 +50,10 @@ fun DetailScreen(id:Int,type:String) {
     var nametextStyle=MaterialTheme.typography.h5
     var IconSize=40.dp
     val onClick={
-        viewModel.OnEvent(DetailScreenEvent.ClickFavorite(id,type
+        viewModel.OnEvent(DetailScreenEvent.ClickFavorite(
+            SavedId(id,type
             , result?.artworkUrl100?.changeImageQuality("300x300")?:"",
-            Name = result?.trackName ?: result?.collectionName?: ""))
+            name = result?.trackName ?: result?.collectionName?: "")))
     }
 
     if (rememberWindowInfo().screenWidthInfo is WindowInfo.WindowType.Compact){
