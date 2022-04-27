@@ -36,7 +36,6 @@ class FavoriteViewModel @Inject constructor(private val repository: FavoritesRep
         viewModelScope.launch {
             repository.getFavoriteId().onEach {
                 it.onSuccess {
-                    Log.d("hatad",it.size.toString())
 
                     _FavoriteData.value=it
                 }

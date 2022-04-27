@@ -7,7 +7,5 @@ import kotlinx.coroutines.flow.Flow
 interface FavoritesRepository {
 
     suspend fun getFavoriteId(): Flow<Result<List<SavedId>>>
-    suspend fun deleteFavoriteID(id:Int)
-    fun SearchId(id: Int): Flow<Result<SearchResponce>>
 
 }

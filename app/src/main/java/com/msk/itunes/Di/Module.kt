@@ -65,8 +65,8 @@ object Module {
     }
 @Provides
     @Singleton
-    fun provideFavoritesRepository(api: itunesApi,dao: Dao): FavoritesRepository {
-        return FavoritesRepositoryImp(api = api, dao = dao)
+    fun provideFavoritesRepository(dao: Dao): FavoritesRepository {
+        return FavoritesRepositoryImp( dao = dao)
     }
 
     @Provides

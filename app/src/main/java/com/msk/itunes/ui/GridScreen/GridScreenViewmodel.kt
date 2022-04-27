@@ -28,7 +28,9 @@ class GridScreenViewmodel @Inject constructor(private val repository: SearchRepo
     private var searchquery=""
     private var type=""
 
-    private var currentPage = 0
+     var currentPage = 0
+    private set
+
 
     private var pageJob: Job? = null
 
